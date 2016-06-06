@@ -1,0 +1,105 @@
+Architecture description:
+
+The subscription process is as follows:
+1. Process is kicked off the using the slack slash command.  For example:
+/gitlabot subscribe {repo name}
+2. This sends a POST request to the configured slash command URL, which should be in the
+format of: http://domain/api/slack-message.  This api lives in an express app in a
+web dyno.
+3. Depending on the first argument of the slash command, handling will be delegated to
+the SubscribeHandler, UnsubscribeHandler, ListHandler, or UnknownCommandHandler.
+4. The handler will interact with the configured Redis instance by reading or writing
+to it.  In the case of subscribe, we will write to two Redis sets: one with 
+key=user_name and value=set[repos], and the other key=repo and value=set[users].
+
+The gitlab webhook process is as follows:
+1. When commits are pushed to a gitlab repo that has a webhook configured, the webhook
+should fire a POST request to a URL configured with a format of:
+POST http://domain/api/gitlab-hook.  This api lives in an express app in a
+web dyno.
+2. The gitlab-request-handler module will take some data from the webhook request
+and insert it into an object that will be published to a configured queue in RabbitMQ, 
+and then it will return a 200.  This allows the hook to handle the webhook request 
+quickly.
+3. The message-processor module is running in a worker dyno.  When a message from the
+configured queue is received, the repo name will be pulled out of the message.  We will
+then query Redis with the repo name to get back a list of users that are subscribed to
+that repo.
+4. Loop through the list of users and send each user a private message containing data
+from the message.  The message is sent via a POST to the "Incoming Webhook" configured
+in slack.
+
+==========================================================================================
+
+Future goals:
+-Have the incoming hook to slack display a list of all of the commit messages.
+-Use user_id instead of user_name
+-Clean up dependencies
+-Make rabbit mq exchange configurable
+-Clean up file structure of repo
+-Additional security?
+-Think about adding the requests to the /slack-message endpoint to MQ for faster processing.
+-Allow a user to subsribe to a particular branch
+-Have another worker (or the same worker so we can still operate with a free dyno) clear
+out data from redis that hasn't been accessed in a long time.
+==========================================================================================
+
+Redis:
+http://stackoverflow.com/questions/10907942/how-to-have-relations-many-to-many-in-redis
+https://github.com/RedisLabs/rediscloud-node-sample
+https://github.com/NodeRedis/node_redis
+https://www.sitepoint.com/using-redis-node-js/
+
+Slack:
+https://www.sitepoint.com/getting-started-slack-bots/
+https://api.slack.com/custom-integrations
+
+Express:
+https://scotch.io/tutorials/build-a-restful-api-using-node-and-express-4
+
+Heroku:
+https://scotch.io/tutorials/how-to-deploy-a-node-js-app-to-heroku
+worker dyno: http://stackoverflow.com/questions/35946177/node-js-message-queue-on-heroku
+git push heroku yourbranch:master
+heroku logs -n 200
+https://devcenter.heroku.com/articles/node-best-practices (check out environment variable section)
+
+node-Foreman:
+https://github.com/strongloop/node-foreman
+
+Gitlab:
+https://gitlab.com/help/web_hooks/web_hooks
+ 
+Cloud AMQP (Rabbit MQ):
+http://stackoverflow.com/questions/20128124/amqp-vs-amqplib-which-node-js-amqp-client-library-is-better
+https://github.com/heroku-examples/node-articles-nlp
+https://www.cloudamqp.com/docs/nodejs.html
+https://devcenter.heroku.com/articles/cloudamqp#use-with-node-js
+https://github.com/postwait/node-amqp
+
+Bluebird (Node promises):
+http://ricostacruz.com/cheatsheets/bluebird.html
+
+Request Library:
+http://stackoverflow.com/questions/6158933/how-to-make-an-http-post-request-in-node-js
+http://stackoverflow.com/questions/9768192/sending-data-through-post-request-from-a-node-js-server-to-a-node-js-server
+http://blog.modulus.io/node.js-tutorial-how-to-use-request-module
+
+==============================
+
+1. In the future I should probably have a key/value store where the key is the repo name, and the value is a list of IDs of branches.
+2. Then I could have a key/value store where the key is the branch name and the value is a list of users.
+This would allow me to do a key scan over the second (#2) list where there are not many branch names.  Apparently one should only
+use SCAN instead of KEYS in production. This is because Redis is single-threaded and blocking.  KEYS could take a long time
+to run depending on the number of keys, and it will block ALL other operations until it completes.  SCAN has a pagination feature.
+This means you can scan, say, 50 keys at a time, then allow other commands to execute, then scan another 50 at a time, and so on.
+
+============================
+
+
+
+
+
+
+
+
