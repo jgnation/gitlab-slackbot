@@ -21,11 +21,7 @@ module.exports = function handleRequest(req, res) {
 		branch: branch
 	}
 
-<<<<<<< HEAD
-=======
-	console.log('publishing message' + message);
->>>>>>> 209f4cc0549787b6d3e444b72141c9809eb7088e
-	queue.publishMessage(message);
+	queue.publishMessage(message); //TODO: handle error
 
 	res.sendStatus(200);
 };

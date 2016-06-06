@@ -13,11 +13,6 @@ client.auth(redisURL.auth.split(":")[1]);
 
 var router = express.Router();
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
-});
-
 router.post('/slack-message', function(req, res) {
 	//TODO: validate the request
 
