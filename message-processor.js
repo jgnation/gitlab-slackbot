@@ -35,14 +35,17 @@ connection.on('ready', function () {
         q.subscribe(function (message) {
 
             var repo = message.body.repo;
-            var num_commits = message.body.num_commits;
+            var commit_messages = message.body.commit_messages;
+            var num_commits = commit_messages.length;
             var user_name = message.body.user_name;
             var branch = message.body.branch;
 
             client.smembersAsync(repo)
                 .then(function (results) {
                     var message = user_name + " pushed " + num_commits + " commits to repo: " + repo + ", branch: " + branch;
-                    console.log(message);
+                    for (var j = 0; j < commit_messages.length; j++) {
+                        message += "\n- " + commit_messages[j];
+                    }
                     
                     for (var i = 0; i < results.length; i++) {
                         var requestBody = {

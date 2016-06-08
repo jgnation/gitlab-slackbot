@@ -32,7 +32,7 @@ in slack.
 ==========================================================================================
 
 Future goals:
--Have the incoming hook to slack display a list of all of the commit messages.
+-Use message attachments to make output prettier.
 -Use user_id instead of user_name
 -Clean up dependencies
 -Make rabbit mq exchange configurable

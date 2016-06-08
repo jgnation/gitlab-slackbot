@@ -8,7 +8,8 @@ module.exports = function handleRequest(req, res) {
 		return;
 	}
 
-	console.log(hook);
+	var commits = hook.commits;
+	var commit_messages = commits.map( commit => commit.message );
 
 	var ref = hook.ref;
 	var ref_components = ref.split("/");
@@ -16,7 +17,7 @@ module.exports = function handleRequest(req, res) {
 
 	var message = {
 		repo: hook.repository.name,
-		num_commits: hook.total_commits_count,
+		commit_messages: commit_messages,
 		user_name: hook.user_name,
 		branch: branch
 	}
