@@ -11,21 +11,38 @@ ListHandler.prototype.list = function(req, res) {
 	
 	this.client.smembersAsync(user_name)
 		.then(function (results) {
-			var response_msg = '';
-        	
         	if (results.length == 0) {
-				response_msg = "You have no subscriptions.";
+				var response_msg = "You have no subscriptions.";
+				res.json({ text: response_msg });
         	} else {
-        		response_msg = "You are subscribed to the following repos: ";
+        		var fields = [];
+        		var fallback_msg = "You are subscribed to the following repos: ";
 				for (var i = 0; i < results.length; i++) {
-				    response_msg += results[i];
+					var field = {
+						title: results[i],
+						short: false
+					}
+					fields.push(field);
+				    fallback_msg += results[i];
 				    if (i != results.length -1) {
-				    	response_msg += ", ";
+				    	fallback_msg += ", ";
 				    }
 				}
-        	}
 
-			res.json({ text: response_msg });
+        		var response_body = {
+					text: '',
+					attachments: 
+					[
+						{
+				            fallback: fallback_msg,
+				            color: "#36a64f",
+				            pretext: "You are subscribed to the following repos:",
+				            fields: fields
+		        		}
+					]
+				};
+				res.json(response_body);       		
+        	}
 		})
 		.catch(function(error) {
 			console.log(error); 

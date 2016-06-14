@@ -24,8 +24,24 @@ SubscribeHandler.prototype.subscribe = function(req, res) {
 
 	Promise.all([ promise1, promise2 ])
 		.then(function (results) {
-			var response_msg = "You have subscribed to: " + repo;
-			res.json({ text: response_msg });
+			var response_body = {
+				text: '',
+				attachments: 
+				[
+					{
+			            fallback: "You have subscribed to: " + repo,
+			            color: "#36a64f",
+			            pretext: "You have subscribed to:",
+			            fields: [
+			                {
+			                    title: repo,
+			                    short: false
+			                }
+			            ]
+	        		}
+				]
+			};
+			res.json(response_body);
 		})
 		.catch(function(error) {
 			console.log(error); 

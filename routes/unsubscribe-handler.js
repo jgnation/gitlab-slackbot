@@ -24,7 +24,24 @@ UnsubscribeHandler.prototype.unsubscribe = function(req, res) {
 	//TODO: fully test this to make sure no data is left behind
 	Promise.all([ promise1, promise2 ])
 		.then(function (results) {
-			res.json({ text: 'You have unsubscribed from: ' + repo });
+			var response_body = {
+				text: '',
+				attachments: 
+				[
+					{
+			            fallback: "You have unsubscribed from: " + repo,
+			            color: "#36a64f",
+			            pretext: "You have unsubscribed from:",
+			            fields: [
+			                {
+			                    title: repo,
+			                    short: false
+			                }
+			            ]
+	        		}
+				]
+			};
+			res.json(response_body);
 		})
 		.catch(function(error) {
 			console.log(error); 

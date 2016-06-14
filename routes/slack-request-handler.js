@@ -1,7 +1,7 @@
 var SubscribeHandler = require('./subscribe-handler');
 var UnsubscribeHandler = require('./unsubscribe-handler'); 
 var ListHandler = require('./list-handler'); 
-var UnknownCommandHandler = require('./unknown-command-handler');
+var HelpHandler = require('./help-handler');
 
 module.exports = function handleRequest(req, res, client) {
     var arguments = req.body.text;
@@ -28,7 +28,7 @@ module.exports = function handleRequest(req, res, client) {
             handler.list(req, res);
             break;
         default:
-        	var handler = new UnknownCommandHandler(client);
-            handler.handle(req, res);
+            var handler = new HelpHandler(client);
+            handler.help(req, res);
 	}
 };

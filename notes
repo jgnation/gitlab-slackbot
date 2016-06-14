@@ -32,7 +32,7 @@ in slack.
 ==========================================================================================
 
 Future goals:
--Use message attachments to make output prettier.
+-make code suck less
 -Use user_id instead of user_name
 -Clean up dependencies
 -Make rabbit mq exchange configurable
