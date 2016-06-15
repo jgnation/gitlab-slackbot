@@ -33,10 +33,10 @@ in slack.
 
 Future goals:
 -make code suck less
+-add automated tests
 -Use user_id instead of user_name
 -Clean up dependencies
 -Make rabbit mq exchange configurable
--Clean up file structure of repo
 -Additional security?
 -Think about adding the requests to the /slack-message endpoint to MQ for faster processing.
 -Allow a user to subsribe to a particular branch

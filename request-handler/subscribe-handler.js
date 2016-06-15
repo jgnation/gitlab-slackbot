@@ -1,9 +1,9 @@
+var redis_client = require('../redis-client/redis-client');
 var Promise = require('bluebird'); 
 
 module.exports = SubscribeHandler;
 
-function SubscribeHandler(client) {
-	this.client = client
+function SubscribeHandler() {
 }
 
 SubscribeHandler.prototype.subscribe = function(req, res) {
@@ -19,8 +19,8 @@ SubscribeHandler.prototype.subscribe = function(req, res) {
 	var user_id = req.body.user_id;	//TODO: store by user_id instead of user_name
 	var repo = args_array[1];
 
-	var promise1 = this.client.saddAsync(user_name, repo);
-	var promise2 = this.client.saddAsync(repo, user_name);
+	var promise1 = redis_client.saddAsync(user_name, repo);
+	var promise2 = redis_client.saddAsync(repo, user_name);
 
 	Promise.all([ promise1, promise2 ])
 		.then(function (results) {

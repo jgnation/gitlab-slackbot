@@ -1,14 +1,7 @@
 var amqp = require('amqp');
-var bluebird = require('bluebird'); 
-var redis = require('redis');
-var url = require('url');
 var request = require('request');
+var redis_client = require('./redis-client/redis-client');
 
-//setup redis
-bluebird.promisifyAll(redis.RedisClient.prototype);
-var redisURL = url.parse(process.env.REDIS_URL);
-var client = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
-client.auth(redisURL.auth.split(":")[1]);
 
 //setup amqp
 var amqpUrl = process.env.CLOUDAMQP_URL;
@@ -40,7 +33,7 @@ connection.on('ready', function () {
             var user_name = message.body.user_name;
             var branch = message.body.branch;
 
-            client.smembersAsync(repo)
+            redis_client.smembersAsync(repo)
                 .then(function (results) {
                     var fields = [];
                     var fallback_msg = user_name + " pushed " + num_commits + " commits to repo: " + repo + ", branch: " + branch;

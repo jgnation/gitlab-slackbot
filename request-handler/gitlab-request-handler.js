@@ -1,4 +1,4 @@
-var queue = require('./amqp') 
+var queue = require('../amqp/amqp') 
 
 module.exports = function handleRequest(req, res) {
 	var hook = req.body;

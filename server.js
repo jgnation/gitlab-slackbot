@@ -2,7 +2,7 @@ var bodyParser = require('body-parser');
 var express = require('express');
 var routes = require('./routes/routes');        
 var app = express();  
-var amqp = require('./routes/amqp')               
+var amqp = require('./amqp/amqp')               
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST

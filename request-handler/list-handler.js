@@ -1,15 +1,15 @@
+var redis_client = require('../redis-client/redis-client');
 
 module.exports = ListHandler;
 
-function ListHandler(client) {
-	this.client = client
+function ListHandler() {
 }
 
 ListHandler.prototype.list = function(req, res) {
     var user_name = req.body.user_name;
 	var user_id = req.body.user_id;
 	
-	this.client.smembersAsync(user_name)
+	redis_client.smembersAsync(user_name)
 		.then(function (results) {
         	if (results.length == 0) {
 				var response_msg = "You have no subscriptions.";

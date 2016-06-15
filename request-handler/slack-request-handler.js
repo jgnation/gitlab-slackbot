@@ -3,7 +3,7 @@ var UnsubscribeHandler = require('./unsubscribe-handler');
 var ListHandler = require('./list-handler'); 
 var HelpHandler = require('./help-handler');
 
-module.exports = function handleRequest(req, res, client) {
+module.exports = function handleRequest(req, res) {
     var arguments = req.body.text;
     var action;
     if (arguments) {
@@ -11,24 +11,24 @@ module.exports = function handleRequest(req, res, client) {
         action = args_array[0];
     }
     else {
-        action = "unknown";
+        action = 'help';
     }
     
 	switch (action) {
         case 'subscribe':
-            var handler = new SubscribeHandler(client);
+            var handler = new SubscribeHandler();
             handler.subscribe(req, res);
             break;
         case 'unsubscribe':
-            var handler = new UnsubscribeHandler(client);
+            var handler = new UnsubscribeHandler();
             handler.unsubscribe(req, res);
             break;
         case 'list':
-            var handler = new ListHandler(client);
+            var handler = new ListHandler();
             handler.list(req, res);
             break;
         default:
-            var handler = new HelpHandler(client);
+            var handler = new HelpHandler();
             handler.help(req, res);
 	}
 };

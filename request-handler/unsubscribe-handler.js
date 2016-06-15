@@ -1,8 +1,9 @@
+var redis_client = require('../redis-client/redis-client');
 
 module.exports = UnsubscribeHandler;
 
-function UnsubscribeHandler(client) {
-	this.client = client
+function UnsubscribeHandler() {
+
 }
 
 UnsubscribeHandler.prototype.unsubscribe = function(req, res) {
@@ -18,8 +19,8 @@ UnsubscribeHandler.prototype.unsubscribe = function(req, res) {
 	var user_name = req.body.user_name;
 	var user_id = req.body.user_id;
 
-	var promise1 = this.client.sremAsync(user_name, repo)
-	var promise2 = this.client.sremAsync(repo, user_name)
+	var promise1 = redis_client.sremAsync(user_name, repo)
+	var promise2 = redis_client.sremAsync(repo, user_name)
 
 	//TODO: fully test this to make sure no data is left behind
 	Promise.all([ promise1, promise2 ])
