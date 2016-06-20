@@ -26,7 +26,7 @@ connection.on('ready', function () {
 
         // Receive messages
         q.subscribe(function (message) {
-
+            console.log(message);
             var repo = message.body.repo;
             var commit_messages = message.body.commit_messages;
             var num_commits = commit_messages.length;
@@ -50,7 +50,7 @@ connection.on('ready', function () {
 
                     for (var i = 0; i < results.length; i++) {
                         var requestBody = {
-                            channel: "@" + results[i],
+                            channel: results[i],
                             text: '',
                             attachments: [
                                 {

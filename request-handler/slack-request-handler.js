@@ -15,17 +15,20 @@ module.exports = function handleRequest(req, res) {
     }
     
 	switch (action) {
-        case 'subscribe':
+        case 'private-subscribe':
+        case 'channel-subscribe':
             var handler = new SubscribeHandler();
-            handler.subscribe(req, res);
+            handler.subscribe(req, res, action);
             break;
-        case 'unsubscribe':
+        case 'private-unsubscribe':
+        case 'channel-unsubscribe':
             var handler = new UnsubscribeHandler();
-            handler.unsubscribe(req, res);
+            handler.unsubscribe(req, res, action);
             break;
-        case 'list':
+        case 'private-list':
+        case 'channel-list':
             var handler = new ListHandler();
-            handler.list(req, res);
+            handler.list(req, res, action);
             break;
         default:
             var handler = new HelpHandler();
