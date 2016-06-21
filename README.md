@@ -4,9 +4,12 @@ gitlab-slackbot is a...wait for it...bot that integrates Slack and Gitlab.  Curr
 
 **Usage**
 ```
-/{bot-name} subscribe {repo name}
-/{bot-name} unsubscribe {repo name}
-/{bot-name} list
+/{bot-name} private-subscribe {repo name}
+/{bot-name} private-unsubscribe {repo name}
+/{bot-name} private-list
+/{bot-name} channel-subscribe {repo name}
+/{bot-name} channel-unsubscribe {repo name}
+/{bot-name} channel-list
 ```
 
 **Installation**
