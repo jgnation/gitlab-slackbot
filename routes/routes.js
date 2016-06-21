@@ -21,7 +21,7 @@ router.post('/gitlab-hook', function(req, res) {
 
 	var header_token = req.get('x-gitlab-token');
 	var query_token = req.query.token;
-	
+
 	if(header_token) {
 		if (header_token == process.env.GITLAB_WEBHOOK_TOKEN) {
 			gitlabHandler(req, res);
