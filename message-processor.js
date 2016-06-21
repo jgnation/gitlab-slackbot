@@ -26,7 +26,6 @@ connection.on('ready', function () {
 
         // Receive messages
         q.subscribe(function (message) {
-            console.log(message);
             var repo = message.body.repo;
             var commit_messages = message.body.commit_messages;
             var num_commits = commit_messages.length;
