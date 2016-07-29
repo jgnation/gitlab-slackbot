@@ -22,9 +22,17 @@ module.exports = function handleRequest(req, res) {
 	} else if (hook.object_kind == 'merge_request') {
 		console.log('!!!!!!!!!!!')
 		var object_attributes = hook.object_attributes;
+		var title = object_attributes.title;
 		var description = object_attributes.description;
+		var state = object_attributes.state;
+		console.log('title = ' + title);
 		console.log('description = ' + description);
-		var repository = hook.repository.name;
+		console.log('state = ' + state);
+		var user = hook.user.username;
+		console.log('user = ' + user);
+		var assignee = hook.assignee.username;
+		console.log('assignee = ' + assignee);
+		var repository = hook.repository.name;		
 		console.log('repository = ' + repository);
 	} else {
 		//ignore this request;
