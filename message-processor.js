@@ -100,45 +100,23 @@ connection.on('ready', function () {
 
                             var fields = [];
 
+                            var message = "*Repo:* " + repo + "\n";
+                            message += "*State:* " + state + "\n";
+                            message += "*User:* " + user + "\n";
+                            if (assignee) message += "*Assigned to:* " + assignee + "\n";
+                            message += "*Title:* " + title + "\n";
+                            if (description) message += "*Description:* " + description + "\n";
+
                             fields.push({
                                 title: '',
-                                value: "*Repo:* " + repo,
+                                value: message,
                                 short: false
                             });
-                            fields.push({
-                                title: '',
-                                value: "*State:* " + state,
-                                short: false
-                            });
-                            fields.push({
-                                title: '',
-                                value: "*User:* " + user,
-                                short: false
-                            });
-                            if (assignee) {
-                                fields.push({
-                                    title: '',
-                                    value: "*Assigned to:* " + assignee,
-                                    short: false
-                                });
-                            }
-                            fields.push({
-                                title: '',
-                                value: "*Title:* " + title,
-                                short: false
-                            });
-                            if (description) {
-                                fields.push({
-                                    title: '',
-                                    value: "*Description:* " + description,
-                                    short: false
-                                });
-                            }
-                            fields.push({
-                                title: '',
-                                value: url,
-                                short: false
-                            });
+                            // fields.push({
+                            //     title: '',
+                            //     value: url,
+                            //     short: false
+                            // });
 
                             var requestBody = {
                                 channel: results[i],
