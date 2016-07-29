@@ -85,7 +85,6 @@ connection.on('ready', function () {
             }
 
             if (type == 'merge_request') {
-                console.log('sheeeeiiiitttt');
                 var repo = message.body.repo;
                 var title = message.body.title;
                 var description = message.body.description;
@@ -120,6 +119,7 @@ connection.on('ready', function () {
                                     {
                                         title: 'Merge Request Notification',
                                         fallback: 'New merge request: ' + url,
+                                        color: "#ff9900",
                                         mrkdwn_in: [ "fields"],
                                         fields: fields,
                                         footer: url
