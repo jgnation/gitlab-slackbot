@@ -19,7 +19,7 @@ module.exports = function handleRequest(req, res) {
 		}
 
 		queue.publishMessage(message); //TODO: handle error
-	} else if (hook.object_king == 'merge_request') {
+	} else if (hook.object_kind == 'merge_request') {
 		console.log('!!!!!!!!!!!')
 		var object_attributes = hook.object_attributes;
 		var description = object_attributes.description;
