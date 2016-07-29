@@ -102,7 +102,7 @@ connection.on('ready', function () {
 
                             fields.push({
                                 title: '',
-                                value: "*Repo: *" + repo,
+                                value: "**Repo: **" + repo,
                                 short: false
                             });
                             fields.push({
