@@ -112,11 +112,6 @@ connection.on('ready', function () {
                                 value: message,
                                 short: false
                             });
-                            // fields.push({
-                            //     title: '',
-                            //     value: url,
-                            //     short: false
-                            // });
 
                             var requestBody = {
                                 channel: results[i],
@@ -126,10 +121,10 @@ connection.on('ready', function () {
                                         title: 'Merge Request Notification',
                                         fallback: 'New merge request: ' + url,
                                         mrkdwn_in: [ "fields"],
-                                        fields: fields
+                                        fields: fields,
+                                        footer: url
                                     }
-                                ],
-                                footer: url
+                                ]                             
                             };
 
                             var requestObject = {
