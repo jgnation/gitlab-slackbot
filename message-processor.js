@@ -102,35 +102,35 @@ connection.on('ready', function () {
 
                             fields.push({
                                 title: '',
-                                value: "**Repo: **" + repo,
+                                value: "*Repo:* " + repo,
                                 short: false
                             });
                             fields.push({
                                 title: '',
-                                value: "*State: *" + state,
+                                value: "*State:* " + state,
                                 short: false
                             });
                             fields.push({
                                 title: '',
-                                value: "*User: *" + user,
+                                value: "*User:* " + user,
                                 short: false
                             });
                             if (assignee) {
                                 fields.push({
                                     title: '',
-                                    value: "*Assigned to: *" + assignee,
+                                    value: "*Assigned to:* " + assignee,
                                     short: false
                                 });
                             }
                             fields.push({
                                 title: '',
-                                value: "*Title: *" + title,
+                                value: "*Title:* " + title,
                                 short: false
                             });
                             if (description) {
                                 fields.push({
                                     title: '',
-                                    value: "*Description: *" + description,
+                                    value: "*Description:* " + description,
                                     short: false
                                 });
                             }
@@ -150,7 +150,8 @@ connection.on('ready', function () {
                                         mrkdwn_in: [ "fields"],
                                         fields: fields
                                     }
-                                ]
+                                ],
+                                footer: url
                             };
 
                             var requestObject = {
