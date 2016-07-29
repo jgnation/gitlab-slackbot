@@ -25,6 +25,8 @@ module.exports = function handleRequest(req, res) {
 		var title = object_attributes.title;
 		var description = object_attributes.description;
 		var state = object_attributes.state;
+		var url = object_attributes.url;
+		console.log('url' + url);
 		console.log('title = ' + title);
 		console.log('description = ' + description);
 		console.log('state = ' + state);
