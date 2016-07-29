@@ -2,6 +2,7 @@ var queue = require('../amqp/amqp')
 
 module.exports = function handleRequest(req, res) {
 	var hook = req.body;
+	console.log(req.body);
 	if (hook.object_kind != 'push') {
 		//ignore this request;
 		res.sendStatus(200);
